@@ -1,32 +1,26 @@
 import neovim
+from .shinden import Shinden
 
 
 @neovim.plugin
 class studio(object):
-    _cmd_pre = 'Studio'
+    _cmd_pre = 'Shinden'
 
     def __init__(self, nvim):
-        self.nvim = nvim
+        self._nvim = nvim
+        self._shinden = Shinden(self._nvim)
 
-    @neovim.command(_cmd_pre+'BeginProjcet')
-    def open_studio(self):
-        self.nvim.command('vsp|terminal')
-
-    @neovim.function(_cmd_pre+'GetCurrentLine', sync=True)
-    def get_current_line(self, args):
-        list = self.nvim.command('ls')
-        return list
+    @neovim.command(_cmd_pre+'Begin', nargs='*')
+    def open_studio(self, args):
+        term = int(args[0])
+        script = int(args[1])
+        # self.nvim.command('vsp|terminal')
+        self._shinden.assign_window_num(term, script)
 
     @neovim.command(_cmd_pre+'Run', nargs='*')
     def run_current_cmd(self, args):
-        wins = self.nvim.windows
-        cmd = self.nvim.current.line
-        self.nvim.current.window = wins[0]
-        self.nvim.feedkeys('i'+cmd+'\n')
-        self.nvim.current.window = wins[1]
+        cmd = self._nvim.current.line
+        self._shinden.run_cmd(cmd)
 
-    @neovim.command(_cmd_pre+'Write')
-    def write_out(self):
-        self.nvim.current.line = 'sss'
 
 
