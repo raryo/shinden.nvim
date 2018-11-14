@@ -11,9 +11,9 @@ class studio(object):
         self._shinden = Shinden(self._nvim)
 
     @neovim.command(_cmd_pre+'Begin', nargs='*')
-    def open_studio(self, args):
-        term = int(args[0])
-        script = int(args[1])
+    def open_studio(self, *args):
+        script = int(args[0])
+        term = int(args[1])
         # self.nvim.command('vsp|terminal')
         self._shinden.assign_window_num(term, script)
 
