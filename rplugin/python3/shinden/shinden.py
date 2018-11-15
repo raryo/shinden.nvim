@@ -30,9 +30,14 @@ class Shinden(object):
         # get buffers dict
         # {buf_num : buf_obj}
         _bufs = self._nvim.buffers
-        if (len(_bufs) == 1 and
-                not re.match('^term:.*', list(_bufs.values())[0])):
-            self._nvim.command('vsp|term')
+        if len(_bufs) == 1:
+            if not re.match('^term:.*', list(_bufs.values())[0]):
+                # the Tab has only 1 buffer (not terminal)
+                self._nvim.command('vsp|term')
+            else:
+                # the Tab has only 1 terminal-buffer
+                # confirm use it
+                pass
         else:
             pass
 
