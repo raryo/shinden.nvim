@@ -1,4 +1,8 @@
+import sys
 import neovim
+
+
+sys.dont_write_bytecode = True
 
 
 @neovim.plugin

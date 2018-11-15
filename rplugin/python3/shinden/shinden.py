@@ -1,5 +1,3 @@
-
-@neovim.plugin
 class studio(object):
     _cmd_pre = 'Studio'
 
@@ -27,9 +25,10 @@ class studio(object):
     def write_out(self):
         self.nvim.current.line = 'sss'
 
+
 class Shinden(object):
+
     def __init__(self, nvim):
         self._nvim = nvim
-        :q
 
-    
+    def _
