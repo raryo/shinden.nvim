@@ -21,10 +21,16 @@ class shinden(object):
         # self.nvim.command('vsp|terminal')
         self._shinden.init_env()
 
-    @neovim.command(_cmd_pre+'Run', nargs='*')
+    # @neovim.command(_cmd_pre+'Run', nargs='*')
+    # def run_current_cmd(self, args):
+    #     cmd = self._nvim.current.line
+    #     self._shinden.run_cmd(cmd)
+
+    @neovim.function(_cmd_pre + 'Run', sync=True)
     def run_current_cmd(self, args):
         cmd = self._nvim.current.line
         self._shinden.run_cmd(cmd)
+        return cmd
 
 
 

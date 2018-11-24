@@ -28,7 +28,7 @@ class Shinden(object):
         #   assign term-window, script-window
         # currently, assigin using args.
 
-        env_wins = self._nvim.tabpages[self._env_tab_num - 1].windows
+        env_wins = self._env_tab.windows
         for w in env_wins:
             buf = w.buffer
             type_ = 'term' if re.match('^term:.*', buf.name) else 'script'
@@ -59,13 +59,17 @@ class Shinden(object):
             self._nvim.command('tabnew|vsp|term')
         self._env_tab = self._nvim.current.tabpage
         self.assign_window_num()
-        
+       
     #
     # main routin, put cmd to terminal and run.
     #
     def run_cmd(self, cmd):
         if self._env_tab != self._nvim.current.tabpage:
             return 1
-        self._nvim.current.window = self._env_wins['term']
-        self._nvim.feedkeys('i' + cmd + '\n')
-        self._nvim.current.window = self._env_wins['script']
+        # self._nvim.current.window = self._env_wins['term']
+        # self._nvim.feedkeys('i' + cmd + '\nC-\-n')
+        # self._nvim.current.window = self._env_wins['script']
+        term_job_id = self._nvim.call('getbufvar',
+                                      self._env_buf_nums['term'],
+                                      'terminal_job_id')
+        self._nvim.call('chansend', term_job_id, cmd + '\n')
