@@ -14,12 +14,10 @@ class shinden(object):
         self._nvim = nvim
         self._shinden = Shinden(self._nvim)
 
-    @neovim.command(_cmd_pre+'Begin')
-    def open_shinden(self):
-        # script = int(args[0])
-        # term = int(args[1])
-        # self.nvim.command('vsp|terminal')
-        self._shinden.init_env()
+    @neovim.command(_cmd_pre+'Begin', nargs='*')
+    def open_shinden(self, args):
+        file_name = str(args[0])
+        self._shinden.init_env(file_name)
 
     # @neovim.command(_cmd_pre+'Run', nargs='*')
     # def run_current_cmd(self, args):
@@ -28,9 +26,9 @@ class shinden(object):
 
     @neovim.function(_cmd_pre + 'Run', sync=True)
     def run_current_cmd(self, args):
-        cmd = self._nvim.current.line
+        cmd = self._shinden.get_cmd()
         self._shinden.run_cmd(cmd)
-        return cmd
+        return args
 
 
 
