@@ -14,8 +14,8 @@ class shinden(object):
         self._nvim = nvim
         self._shinden = Shinden(self._nvim)
 
-    @neovim.command(_cmd_pre+'Begin', nargs='*')
-    def open_shinden(self, args):
+    @neovim.command(_cmd_pre+'Begin', range='', nargs='*')
+    def open_shinden(self, args, range):
         file_name = str(args[0])
         self._shinden.init_env(file_name)
 
